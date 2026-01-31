@@ -4,7 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
-
+import dev.guedes.gameoflife.validators.PopulationValidator;
+import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
 
 /**
  * Guice configuration module for the application.
@@ -19,5 +20,9 @@ public class ApplicationModule extends AbstractModule {
         install(new FactoryModuleBuilder()
                 .implement(BoundedNumberValidator.class, BoundedNumberValidator.class)
                 .build(BoundedNumberValidatorFactory.class));
+
+        install(new FactoryModuleBuilder()
+                .implement(PopulationValidator.class, PopulationValidator.class)
+                .build(PopulationValidatorFactory.class));
     }
 }
