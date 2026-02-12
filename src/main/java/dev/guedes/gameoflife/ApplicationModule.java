@@ -14,6 +14,7 @@ import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.validators.PopulationValidator;
 import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
 import dev.guedes.gameoflife.views.View;
+import dev.guedes.gameoflife.views.cli.CLIExitView;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
 import java.util.Scanner;
@@ -42,6 +43,7 @@ public class ApplicationModule extends AbstractModule {
         bind(OptionReader.class).in(Singleton.class);
 
         bind(CLIViewManager.class).in(Singleton.class);
+        bind(CLIExitView.class).in(Singleton.class);
 
         Multibinder<View> viewMultibinder = Multibinder.newSetBinder(binder(), View.class);
         viewMultibinder.addBinding().to(CLIMainMenuView.class).in(Singleton.class);

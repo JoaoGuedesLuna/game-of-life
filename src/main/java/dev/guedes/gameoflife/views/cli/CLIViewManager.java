@@ -22,13 +22,17 @@ import java.util.stream.Collectors;
  */
 public class CLIViewManager {
     private final Map<ViewAction, View> staticViews;
+    private final CLIExitView exitView;
 
     private ViewAction current = ViewAction.DISPLAY_MAIN_MENU;
 
     @Inject
     public CLIViewManager(
-            Set<View> registeredViews
+            Set<View> registeredViews,
+            CLIExitView exitView
     ) {
+        this.exitView = exitView;
+
         this.staticViews = registeredViews.stream()
                 .collect(Collectors.toMap(View::getAction, view -> view));
     }
@@ -38,6 +42,7 @@ public class CLIViewManager {
             ViewResult<?> result = resolveAndDisplay();
             current = result.next();
         }
+        exitView.display();
     }
 
     private ViewResult<?> resolveAndDisplay() {
