@@ -38,8 +38,8 @@ public final class Terminal {
                 : new ProcessBuilder("clear");
 
         try {
-            builder.inheritIO().start().waitFor();
-            return true;
+            Process process = builder.start();
+            return process.waitFor() == 0;
         }
         catch (IOException | InterruptedException e) {
             Thread.currentThread().interrupt();
