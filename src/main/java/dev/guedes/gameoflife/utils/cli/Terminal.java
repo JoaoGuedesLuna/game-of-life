@@ -38,7 +38,7 @@ public final class Terminal {
                 : new ProcessBuilder("clear");
 
         try {
-            Process process = builder.start();
+            Process process = builder.inheritIO().start();
             return process.waitFor() == 0;
         }
         catch (IOException | InterruptedException e) {
