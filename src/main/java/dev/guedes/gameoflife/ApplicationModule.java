@@ -16,6 +16,7 @@ import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.cli.CLIExitView;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
+import dev.guedes.gameoflife.views.cli.CLIRulesView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
 import java.util.Scanner;
 
@@ -47,6 +48,7 @@ public class ApplicationModule extends AbstractModule {
 
         Multibinder<View> viewMultibinder = Multibinder.newSetBinder(binder(), View.class);
         viewMultibinder.addBinding().to(CLIMainMenuView.class).in(Singleton.class);
+        viewMultibinder.addBinding().to(CLIRulesView.class).in(Singleton.class);
     }
 
     @Provides
