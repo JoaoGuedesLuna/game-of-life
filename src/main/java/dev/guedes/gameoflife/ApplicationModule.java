@@ -16,6 +16,8 @@ import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.cli.CLIExitView;
 import dev.guedes.gameoflife.views.cli.CLIGameConfigView;
+import dev.guedes.gameoflife.views.cli.CLIGameGridView;
+import dev.guedes.gameoflife.views.cli.CLIGameGridViewFactory;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
 import dev.guedes.gameoflife.views.cli.CLIRulesView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
@@ -38,6 +40,10 @@ public class ApplicationModule extends AbstractModule {
         install(new FactoryModuleBuilder()
                 .implement(PopulationValidator.class, PopulationValidator.class)
                 .build(PopulationValidatorFactory.class));
+
+        install(new FactoryModuleBuilder()
+                .implement(CLIGameGridView.class, CLIGameGridView.class)
+                .build(CLIGameGridViewFactory.class));
 
         bind(GridMapper.class).to(GridMapperImpl.class).in(Singleton.class);
 
