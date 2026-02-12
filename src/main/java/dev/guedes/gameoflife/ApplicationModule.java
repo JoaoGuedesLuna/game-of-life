@@ -12,6 +12,7 @@ import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.validators.PopulationValidator;
 import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
+import dev.guedes.gameoflife.views.cli.CLIViewManager;
 import java.util.Scanner;
 
 /**
@@ -36,6 +37,8 @@ public class ApplicationModule extends AbstractModule {
 
         bind(InputReader.class).in(Singleton.class);
         bind(OptionReader.class).in(Singleton.class);
+
+        bind(CLIViewManager.class).in(Singleton.class);
     }
 
     @Provides
