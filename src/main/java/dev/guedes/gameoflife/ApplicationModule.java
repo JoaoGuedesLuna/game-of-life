@@ -7,6 +7,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import dev.guedes.gameoflife.mappers.GridMapper;
 import dev.guedes.gameoflife.mappers.impl.GridMapperImpl;
 import dev.guedes.gameoflife.utils.cli.InputReader;
+import dev.guedes.gameoflife.utils.cli.OptionReader;
 import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.validators.PopulationValidator;
@@ -34,6 +35,7 @@ public class ApplicationModule extends AbstractModule {
         bind(GridMapper.class).to(GridMapperImpl.class).in(Singleton.class);
 
         bind(InputReader.class).in(Singleton.class);
+        bind(OptionReader.class).in(Singleton.class);
     }
 
     @Provides
