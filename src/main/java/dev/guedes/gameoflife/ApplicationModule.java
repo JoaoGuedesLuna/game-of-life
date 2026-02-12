@@ -1,14 +1,17 @@
 package dev.guedes.gameoflife;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import dev.guedes.gameoflife.mappers.GridMapper;
 import dev.guedes.gameoflife.mappers.impl.GridMapperImpl;
+import dev.guedes.gameoflife.utils.cli.InputReader;
 import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.validators.PopulationValidator;
 import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
+import java.util.Scanner;
 
 /**
  * Guice configuration module for the application.
@@ -29,5 +32,11 @@ public class ApplicationModule extends AbstractModule {
                 .build(PopulationValidatorFactory.class));
 
         bind(GridMapper.class).to(GridMapperImpl.class).in(Singleton.class);
+
+        bind(InputReader.class).in(Singleton.class);
     }
+
+    @Provides
+    @Singleton
+    public Scanner scanner() { return new Scanner(System.in); }
 }
