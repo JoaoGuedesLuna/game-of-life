@@ -1,5 +1,8 @@
 package dev.guedes.gameoflife.views.gui;
 
+import com.google.inject.Inject;
+import dev.guedes.gameoflife.utils.swing.LookAndFeelManager;
+import dev.guedes.gameoflife.utils.swing.LookAndFeelType;
 import dev.guedes.gameoflife.views.ViewManager;
 import javax.swing.SwingUtilities;
 
@@ -16,7 +19,13 @@ import javax.swing.SwingUtilities;
  * @author João Guedes
  */
 public class SwingViewManager implements ViewManager {
+    private final GUIMainView guiMainView;
+
+    @Inject
+    public SwingViewManager(GUIMainView guiMainView) { this.guiMainView = guiMainView; }
+
     public void start() {
-        SwingUtilities.invokeLater(() -> System.out.println("Swing GUI..."));
+        LookAndFeelManager.setLookAndFeel(LookAndFeelType.WINDOWS);
+        SwingUtilities.invokeLater(guiMainView::display);
     }
 }
