@@ -23,6 +23,7 @@ import dev.guedes.gameoflife.views.cli.CLIGameGridViewFactory;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
 import dev.guedes.gameoflife.views.cli.CLIRulesView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
+import dev.guedes.gameoflife.views.gui.GUIMainView;
 import dev.guedes.gameoflife.views.gui.SwingViewManager;
 import java.util.Scanner;
 
@@ -62,6 +63,7 @@ public class ApplicationModule extends AbstractModule {
         viewMultibinder.addBinding().to(CLIGameConfigView.class).in(Singleton.class);
 
         bind(ViewManager.class).annotatedWith(Names.named("Swing")).to(SwingViewManager.class).in(Singleton.class);
+        bind(GUIMainView.class).in(Singleton.class);
     }
 
     @Provides
