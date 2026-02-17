@@ -2,6 +2,7 @@ package dev.guedes.gameoflife;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import lombok.Getter;
 
 /**
@@ -21,5 +22,6 @@ public class ApplicationInjector {
 
     private ApplicationInjector() {}
 
+    public static <T> T getInstance(Key<T> key) { return injector.getInstance(key); }
     public static <T> T getInstance(Class<T> clazz) { return injector.getInstance(clazz); }
 }
