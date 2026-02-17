@@ -14,8 +14,8 @@ import java.util.Optional;
 public class Frame extends JFrame {
     public Frame(String title, int width, int height) throws HeadlessException {
         super(title);
-        this.setupDefaultSettings(width, height);
-        this.loadIcon("/assets/icon.png");
+        setupDefaultSettings(width, height);
+        loadIcon("/assets/icon.png");
     }
 
     private void setupDefaultSettings(int width, int height) {
