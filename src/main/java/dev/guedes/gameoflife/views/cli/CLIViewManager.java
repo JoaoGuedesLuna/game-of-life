@@ -5,6 +5,7 @@ import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.exceptions.InvalidPayloadException;
 import dev.guedes.gameoflife.models.GameConfig;
 import dev.guedes.gameoflife.views.View;
+import dev.guedes.gameoflife.views.ViewManager;
 import dev.guedes.gameoflife.views.ViewResult;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  *
  * @author João Guedes
  */
-public class CLIViewManager {
+public class CLIViewManager implements ViewManager {
     private final Map<ViewAction, View> staticViews;
     private final CLIExitView exitView;
     private final CLIGameGridViewFactory gameGridViewFactory;
