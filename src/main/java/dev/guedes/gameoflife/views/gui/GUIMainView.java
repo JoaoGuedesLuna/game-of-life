@@ -5,12 +5,16 @@ import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewResult;
 import dev.guedes.gameoflife.views.gui.components.frame.Frame;
+import dev.guedes.gameoflife.views.gui.components.grid.GridPanel;
 import dev.guedes.gameoflife.views.gui.components.header.Header;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import java.awt.BorderLayout;
 
 import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.APP_TITLE;
 import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.APP_DEFAULT_HEIGHT;
 import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.APP_DEFAULT_WIDTH;
+import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_BG_COLOR;
 
 /**
  * Main application window for the program.
@@ -26,12 +30,14 @@ import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.APP_DEFAULT_WID
  */
 public class GUIMainView extends Frame implements View {
     private final Header header;
+    private final GridPanel gridPanel;
 
     @Inject
-    public GUIMainView(Header header) {
+    public GUIMainView(Header header, GridPanel gridPanel) {
         super(APP_TITLE, APP_DEFAULT_WIDTH, APP_DEFAULT_HEIGHT);
 
         this.header = header;
+        this.gridPanel = gridPanel;
 
         initializeComponents();
     }
@@ -44,6 +50,14 @@ public class GUIMainView extends Frame implements View {
 
     private void initializeComponents() {
         this.setLayout(new BorderLayout());
+
+        JScrollPane scrollGridPanel = new JScrollPane(gridPanel);
+        scrollGridPanel.getViewport().setBackground(GRID_BG_COLOR);
+        scrollGridPanel.setBorder(null);
+        scrollGridPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollGridPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
         this.add(header, BorderLayout.NORTH);
+        this.add(scrollGridPanel, BorderLayout.CENTER);
     }
 }
