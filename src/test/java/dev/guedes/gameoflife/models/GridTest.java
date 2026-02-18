@@ -214,4 +214,74 @@ class GridTest {
 
         assertFalse(grid.isCellAlive(1, 1));
     }
+
+    @Test
+    void toggleCell_ShouldThrowException_WhenCoordinatesAreOutOfBounds() {
+        Cell[][] cells = new Cell[GameLimits.MIN_HEIGHT][GameLimits.MIN_WIDTH];
+
+        for (Cell[] row : cells) Arrays.fill(row, Cell.DEAD);
+
+        Grid grid = new Grid(cells);
+
+        int height = grid.getHeight();
+        int width = grid.getWidth();
+
+        assertThrows(InvalidCellCoordinatesException.class, () -> grid.toggleCell(-1, 0));
+        assertThrows(InvalidCellCoordinatesException.class, () -> grid.toggleCell(height, 0));
+        assertThrows(InvalidCellCoordinatesException.class, () -> grid.toggleCell(0, -1));
+        assertThrows(InvalidCellCoordinatesException.class, () -> grid.toggleCell(0, width));
+    }
+
+    @Test
+    void toggleCell_ShouldTurnCellAlive_WhenCellIsDead() {
+        Cell[][] cells = new Cell[GameLimits.MIN_HEIGHT][GameLimits.MIN_WIDTH];
+
+        for (Cell[] cell : cells) Arrays.fill(cell, Cell.DEAD);
+
+        Grid grid = new Grid(cells);
+
+        grid.toggleCell(1, 1);
+
+        assertEquals(Cell.ALIVE, grid.getCell(1, 1));
+        assertTrue(grid.isCellAlive(1, 1));
+    }
+
+    @Test
+    void toggleCell_ShouldTurnCellDead_WhenCellIsAlive() {
+        Cell[][] cells = {
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                {Cell.DEAD, Cell.ALIVE, Cell.DEAD},
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD}
+        };
+
+        Grid grid = new Grid(cells);
+
+        grid.toggleCell(1, 1);
+
+        assertEquals(Cell.DEAD, grid.getCell(1, 1));
+        assertFalse(grid.isCellAlive(1, 1));
+    }
+
+    @Test
+    void toggleCell_ShouldOnlyAffectTargetCell() {
+        Cell[][] cells = {
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD}
+        };
+
+        Grid grid = new Grid(cells);
+
+        grid.toggleCell(1, 1);
+
+        assertEquals(Cell.DEAD, grid.getCell(0, 0));
+        assertEquals(Cell.DEAD, grid.getCell(0, 1));
+        assertEquals(Cell.DEAD, grid.getCell(0, 2));
+        assertEquals(Cell.DEAD, grid.getCell(1, 0));
+        assertEquals(Cell.ALIVE, grid.getCell(1, 1));
+        assertEquals(Cell.DEAD, grid.getCell(1, 2));
+        assertEquals(Cell.DEAD, grid.getCell(2, 0));
+        assertEquals(Cell.DEAD, grid.getCell(2, 1));
+        assertEquals(Cell.DEAD, grid.getCell(2, 2));
+    }
 }

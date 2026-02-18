@@ -47,6 +47,13 @@ public class Grid {
 
     public boolean isCellAlive(int row, int col) { return getCell(row, col) == Cell.ALIVE; }
 
+    public void toggleCell(int row, int col) {
+        if (!isWithinBounds(row, col)) {
+            throw new InvalidCellCoordinatesException(row + 1, col + 1, width, height);
+        }
+        cells[row][col] = (cells[row][col] == Cell.ALIVE) ? Cell.DEAD : Cell.ALIVE;
+    }
+
     private Cell getNewCellState(int row, int col) {
         int livingNeighbors = countLivingNeighbors(row, col);
         if (livingNeighbors == 3) return Cell.ALIVE;
