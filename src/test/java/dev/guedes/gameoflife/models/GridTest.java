@@ -284,4 +284,44 @@ class GridTest {
         assertEquals(Cell.DEAD, grid.getCell(2, 1));
         assertEquals(Cell.DEAD, grid.getCell(2, 2));
     }
+
+    @Test
+    void saveSnapshot_ShouldStoreCurrentStateIndependently() {
+        Cell[][] cells = {
+                {Cell.ALIVE, Cell.DEAD, Cell.DEAD},
+                {Cell.DEAD, Cell.ALIVE, Cell.DEAD},
+                {Cell.DEAD, Cell.DEAD, Cell.ALIVE}
+        };
+        Grid grid = new Grid(cells);
+
+        grid.toggleCell(0, 0);
+        grid.saveSnapshot();
+
+        grid.toggleCell(0, 0);
+        grid.restoreSnapshot();
+
+        assertEquals(Cell.DEAD, grid.getCell(0, 0));
+    }
+
+    @Test
+    void restoreSnapshot_ShouldRevertGridToInitialState_WhenCalledAfterUpdate() {
+        Cell[][] cells = {
+                {Cell.ALIVE, Cell.ALIVE, Cell.ALIVE},
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD},
+                {Cell.DEAD, Cell.DEAD, Cell.DEAD}
+        };
+        Grid grid = new Grid(cells);
+
+        grid.update();
+
+        assertEquals(Cell.DEAD, grid.getCell(0, 0));
+        assertEquals(Cell.DEAD, grid.getCell(0, 2));
+        assertEquals(Cell.ALIVE, grid.getCell(1, 1));
+
+        grid.restoreSnapshot();
+
+        assertEquals(Cell.ALIVE, grid.getCell(0, 0));
+        assertEquals(Cell.ALIVE, grid.getCell(0, 2));
+        assertEquals(Cell.DEAD, grid.getCell(1, 1));
+    }
 }

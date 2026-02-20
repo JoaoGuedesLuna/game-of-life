@@ -16,7 +16,9 @@ import lombok.Getter;
 public class Grid {
     @Getter private final int width;
     @Getter private final int height;
+
     private Cell[][] cells;
+    private Cell[][] snapshot;
 
     public Grid(Cell[][] cells) {
         validateCellsMatrix(cells);
@@ -24,6 +26,8 @@ public class Grid {
         this.height = cells.length;
         this.width = cells[0].length;
         this.cells = cells;
+
+        saveSnapshot();
     }
 
     public Cell getCell(int row, int col) {
@@ -52,6 +56,19 @@ public class Grid {
             throw new InvalidCellCoordinatesException(row + 1, col + 1, width, height);
         }
         cells[row][col] = (cells[row][col] == Cell.ALIVE) ? Cell.DEAD : Cell.ALIVE;
+    }
+
+    public void saveSnapshot() {
+        this.snapshot = new Cell[height][width];
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(cells[i], 0, snapshot[i], 0, width);
+        }
+    }
+
+    public void restoreSnapshot() {
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(snapshot[i], 0, cells[i], 0, width);
+        }
     }
 
     private Cell getNewCellState(int row, int col) {

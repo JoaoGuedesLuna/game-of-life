@@ -27,7 +27,6 @@ public class CLIGameGridView implements View {
 
     private final OptionReader optionReader;
     private final GameConfig gameConfig;
-    private final GridMapper gridMapper;
     private final List<ViewOption<Boolean>> startOptions;
     private final List<ViewOption<ViewAction>> endOptions;
     private final BoundedNumberValidator startOptionsValidator;
@@ -45,7 +44,6 @@ public class CLIGameGridView implements View {
     ) {
         this.gameConfig = gameConfig;
         this.optionReader = optionReader;
-        this.gridMapper = gridMapper;
 
         this.gameGrid = gridMapper.toGrid(
                 gameConfig.getWidth(),
@@ -161,10 +159,6 @@ public class CLIGameGridView implements View {
 
     private void reset() {
         currentGeneration = 1;
-        gameGrid = gridMapper.toGrid(
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
-                gameConfig.getPopulation()
-        );
+        gameGrid.restoreSnapshot();
     }
 }
