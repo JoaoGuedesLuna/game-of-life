@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public final class LookAndFeelManager {
     private LookAndFeelManager() {
-        throw new UnsupportedOperationException("SwingLookAndFeelManager is a utility class and cannot be instantiated.");
+        throw new UnsupportedOperationException("LookAndFeelManager is a utility class and cannot be instantiated.");
     }
 
     public static void setLookAndFeel(LookAndFeelType lookAndFeelType) {
