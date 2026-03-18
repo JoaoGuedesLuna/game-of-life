@@ -32,7 +32,7 @@ public class CLIMainMenuView implements View {
 
         this.menuOptions = List.of(
                 new ViewOption<>("Start game", () -> ViewResult.of(ViewAction.DISPLAY_GAME_CONFIG)),
-                new ViewOption<>("View rules", () -> ViewResult.of(ViewAction.DISPLAY_GAME_RULES)),
+                new ViewOption<>("Explanation", () -> ViewResult.of(ViewAction.DISPLAY_EXPLANATION)),
                 new ViewOption<>("Exit",       () -> ViewResult.of(ViewAction.EXIT_APP))
         );
 

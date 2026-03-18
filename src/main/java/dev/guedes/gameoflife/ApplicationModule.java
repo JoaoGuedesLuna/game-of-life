@@ -21,7 +21,7 @@ import dev.guedes.gameoflife.views.cli.CLIGameConfigView;
 import dev.guedes.gameoflife.views.cli.CLIGameGridView;
 import dev.guedes.gameoflife.views.cli.CLIGameGridViewFactory;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
-import dev.guedes.gameoflife.views.cli.CLIRulesView;
+import dev.guedes.gameoflife.views.cli.CLIExplanationView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
 import dev.guedes.gameoflife.views.gui.GUIMainView;
 import dev.guedes.gameoflife.views.gui.SwingViewManager;
@@ -61,7 +61,7 @@ public class ApplicationModule extends AbstractModule {
 
         Multibinder<View> viewMultibinder = Multibinder.newSetBinder(binder(), View.class);
         viewMultibinder.addBinding().to(CLIMainMenuView.class).in(Singleton.class);
-        viewMultibinder.addBinding().to(CLIRulesView.class).in(Singleton.class);
+        viewMultibinder.addBinding().to(CLIExplanationView.class).in(Singleton.class);
         viewMultibinder.addBinding().to(CLIGameConfigView.class).in(Singleton.class);
 
         bind(ViewManager.class).annotatedWith(Names.named("Swing")).to(SwingViewManager.class).in(Singleton.class);

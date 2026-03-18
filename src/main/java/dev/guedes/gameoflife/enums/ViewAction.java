@@ -8,7 +8,7 @@ package dev.guedes.gameoflife.enums;
 public enum ViewAction {
     DISPLAY_MAIN_MENU,
     DISPLAY_GAME_CONFIG,
-    DISPLAY_GAME_RULES,
     DISPLAY_GAME_GRID,
+    DISPLAY_EXPLANATION,
     EXIT_APP
 }
