@@ -40,12 +40,6 @@ class LookAndFeelManagerTest {
     }
 
     @Test
-    void setLookAndFeel_ShouldNotThrow_WhenValidLookAndFeel() {
-        assertDoesNotThrow(() -> LookAndFeelManager.setLookAndFeel(LookAndFeelType.METAL));
-        assertEquals(LookAndFeelType.METAL.getClassName(), UIManager.getLookAndFeel().getClass().getName());
-    }
-
-    @Test
     void setLookAndFeel_ShouldThrowLookAndFeelException_WhenLookAndFeelClassNotFound() {
         String className = "non.existent.LookAndFeel";
         LookAndFeelType invalidType = mock(LookAndFeelType.class);
@@ -57,5 +51,11 @@ class LookAndFeelManagerTest {
                 () -> LookAndFeelManager.setLookAndFeel(invalidType),
                 "Error configuring Look and Feel. Failed to apply Look and Feel: " + className
         );
+    }
+
+    @Test
+    void setLookAndFeel_ShouldNotThrow_WhenValidLookAndFeel() {
+        assertDoesNotThrow(() -> LookAndFeelManager.setLookAndFeel(LookAndFeelType.METAL));
+        assertEquals(LookAndFeelType.METAL.getClassName(), UIManager.getLookAndFeel().getClass().getName());
     }
 }
