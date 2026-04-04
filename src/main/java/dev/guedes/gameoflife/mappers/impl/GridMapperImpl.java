@@ -38,8 +38,7 @@ public class GridMapperImpl implements GridMapper {
     public Grid toGrid(int width, int height, String population) {
         validateArguments(width, height, population);
 
-        Cell[][] cells = initializeCells(width, height);
-        populateCells(cells, population);
+        Cell[][] cells = createCells(width, height, population);
 
         return new Grid(cells);
     }
@@ -52,20 +51,26 @@ public class GridMapperImpl implements GridMapper {
         populationValidator.validate(population);
     }
 
-    private Cell[][] initializeCells(int width, int height) {
+    private Cell[][] createCells(int width, int height, String population) {
         Cell[][] cells = new Cell[height][width];
+
         for (Cell[] row : cells) Arrays.fill(row, Cell.DEAD);
-        return cells;
-    }
 
-    private void populateCells(Cell[][] cells, String population) {
-        String[] rows = population.split("#");
-        for (int row = 0; row < rows.length; row++) {
-            String rowString = rows[row];
-            for (int col = 0; col < rowString.length(); col++) {
-                if (rowString.charAt(col) == '1') cells[row][col] = Cell.ALIVE;
+        int row = 0;
+        int col = 0;
+
+        for (int i = 0; i < population.length(); i++) {
+            char c = population.charAt(i);
+
+            if (c == '#') {
+                row++;
+                col = 0;
+            } else {
+                if (c == '1') cells[row][col] = Cell.ALIVE;
+                col++;
             }
-
         }
+
+        return cells;
     }
 }
