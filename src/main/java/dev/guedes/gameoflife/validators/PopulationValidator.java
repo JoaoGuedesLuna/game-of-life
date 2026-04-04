@@ -3,7 +3,6 @@ package dev.guedes.gameoflife.validators;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import dev.guedes.gameoflife.exceptions.InvalidPopulationException;
-import java.util.regex.Pattern;
 
 /**
  * Validator that checks if a population string is valid for a Game of Life board.
