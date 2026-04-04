@@ -18,6 +18,7 @@ public class Grid {
 
     private Cell[][] cells;
     private Cell[][] snapshot;
+    private Cell[][] buffer;
 
     public Grid(Cell[][] cells) {
         validateCellsMatrix(cells);
@@ -48,22 +49,24 @@ public class Grid {
     public boolean hasLivingCells() {
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
-                if (isCellAlive(row, column)) return true;
+                if (cells[row][column] == Cell.ALIVE) return true;
             }
         }
         return false;
     }
 
     public void update() {
-        Cell[][] updatedCells = new Cell[height][width];
+        buffer = new Cell[height][width];
 
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
-                updatedCells[row][column] = getNewCellState(row, column);
+                buffer[row][column] = getNewCellState(row, column);
             }
         }
 
-        cells = updatedCells;
+        Cell[][] temp = cells;
+        cells = buffer;
+        buffer = temp;
     }
 
     public void saveSnapshot() {
@@ -83,7 +86,7 @@ public class Grid {
         int livingNeighbors = countLivingNeighbors(row, col);
         if (livingNeighbors == 3) return Cell.ALIVE;
 
-        boolean isAlive = isCellAlive(row, col);
+        boolean isAlive = cells[row][col] == Cell.ALIVE;
         if (isAlive && livingNeighbors == 2) return Cell.ALIVE;
 
         return Cell.DEAD;
@@ -94,7 +97,7 @@ public class Grid {
 
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = col - 1; j <= col + 1; j++) {
-                if (isWithinBounds(i, j) && !(i == row && j == col) && isCellAlive(i, j)) {
+                if (isWithinBounds(i, j) && !(i == row && j == col) && cells[i][j] == Cell.ALIVE) {
                     count++;
                 }
             }
