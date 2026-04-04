@@ -26,6 +26,7 @@ public class Grid {
         this.height = cells.length;
         this.width = cells[0].length;
         this.cells = cells;
+        this.buffer = new Cell[height][width];
 
         saveSnapshot();
     }
@@ -56,8 +57,6 @@ public class Grid {
     }
 
     public void update() {
-        buffer = new Cell[height][width];
-
         for (int row = 0; row < height; row++) {
             for (int column = 0; column < width; column++) {
                 buffer[row][column] = getNewCellState(row, column);
