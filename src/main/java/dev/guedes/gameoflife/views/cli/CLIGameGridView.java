@@ -6,13 +6,14 @@ import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.mappers.GridMapper;
 import dev.guedes.gameoflife.models.GameConfig;
 import dev.guedes.gameoflife.models.Grid;
-import dev.guedes.gameoflife.models.ViewOption;
 import dev.guedes.gameoflife.utils.cli.Terminal;
 import dev.guedes.gameoflife.utils.cli.OptionReader;
 import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewResult;
+import dev.guedes.gameoflife.views.cli.component.CLIOption;
+
 import java.util.List;
 
 /**
@@ -27,8 +28,8 @@ public class CLIGameGridView implements View {
 
     private final OptionReader optionReader;
     private final GameConfig gameConfig;
-    private final List<ViewOption<Boolean>> startOptions;
-    private final List<ViewOption<ViewAction>> endOptions;
+    private final List<CLIOption<Boolean>> startOptions;
+    private final List<CLIOption<ViewAction>> endOptions;
     private final BoundedNumberValidator startOptionsValidator;
     private final BoundedNumberValidator endOptionsValidator;
 
@@ -52,15 +53,15 @@ public class CLIGameGridView implements View {
         );
 
         this.startOptions = List.of(
-                new ViewOption<>("Start",                 () -> true),
-                new ViewOption<>("Back to configuration", () -> false)
+                new CLIOption<>("Start",                 () -> true),
+                new CLIOption<>("Back to configuration", () -> false)
         );
 
         this.endOptions = List.of(
-                new ViewOption<>("Restart with same configuration", () -> ViewAction.DISPLAY_GAME_GRID),
-                new ViewOption<>("Back to configuration",           () -> ViewAction.DISPLAY_GAME_CONFIG),
-                new ViewOption<>("Back to main menu",               () -> ViewAction.DISPLAY_MAIN_MENU),
-                new ViewOption<>("Exit",                            () -> ViewAction.EXIT_APP)
+                new CLIOption<>("Restart with same configuration", () -> ViewAction.DISPLAY_GAME_GRID),
+                new CLIOption<>("Back to configuration",           () -> ViewAction.DISPLAY_GAME_CONFIG),
+                new CLIOption<>("Back to main menu",               () -> ViewAction.DISPLAY_MAIN_MENU),
+                new CLIOption<>("Exit",                            () -> ViewAction.EXIT_APP)
         );
 
         this.startOptionsValidator = boundedNumberValidatorFactory.create(1, startOptions.size());
