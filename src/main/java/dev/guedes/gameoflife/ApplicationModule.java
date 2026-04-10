@@ -57,12 +57,12 @@ public class ApplicationModule extends AbstractModule {
         bind(OptionReader.class).in(Singleton.class);
 
         bind(ViewManager.class).annotatedWith(Names.named("CLI")).to(CLIViewManager.class).in(Singleton.class);
-        bind(CLIExitView.class).in(Singleton.class);
 
         Multibinder<View> viewMultibinder = Multibinder.newSetBinder(binder(), View.class);
         viewMultibinder.addBinding().to(CLIMainMenuView.class).in(Singleton.class);
         viewMultibinder.addBinding().to(CLIExplanationView.class).in(Singleton.class);
         viewMultibinder.addBinding().to(CLIGameConfigView.class).in(Singleton.class);
+        viewMultibinder.addBinding().to(CLIExitView.class).in(Singleton.class);
 
         bind(ViewManager.class).annotatedWith(Names.named("Swing")).to(SwingViewManager.class).in(Singleton.class);
         bind(GUIMainView.class).in(Singleton.class);

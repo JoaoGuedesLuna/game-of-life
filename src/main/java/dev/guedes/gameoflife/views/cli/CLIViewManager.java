@@ -3,12 +3,15 @@ package dev.guedes.gameoflife.views.cli;
 import com.google.inject.Inject;
 import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.exceptions.InvalidPayloadException;
+import dev.guedes.gameoflife.exceptions.ViewNotFoundException;
 import dev.guedes.gameoflife.models.GameConfig;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewManager;
 import dev.guedes.gameoflife.views.ViewResult;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -24,52 +27,58 @@ import java.util.stream.Collectors;
  * @author João Guedes
  */
 public class CLIViewManager implements ViewManager {
-    private final Map<ViewAction, View> staticViews;
-    private final CLIExitView exitView;
-    private final CLIGameGridViewFactory gameGridViewFactory;
+    private final Map<ViewAction, Supplier<View>> viewsMap;
 
-    private ViewAction current = ViewAction.DISPLAY_MAIN_MENU;
-    private Object payload;
+    private ViewAction currentAction;
+    private Object currentPayload;
 
     @Inject
     public CLIViewManager(
             Set<View> registeredViews,
-            CLIExitView exitView,
             CLIGameGridViewFactory gameGridViewFactory
     ) {
-        this.exitView = exitView;
-        this.gameGridViewFactory = gameGridViewFactory;
+        this.viewsMap = new HashMap<>(
+                registeredViews.stream()
+                        .collect(Collectors.toMap(
+                                View::getAction,
+                                view -> () -> view
+                        ))
+        );
 
-        this.staticViews = registeredViews.stream()
-                .collect(Collectors.toMap(View::getAction, view -> view));
+        this.viewsMap.put(
+                ViewAction.DISPLAY_GAME_GRID,
+                () -> gameGridViewFactory.create(getPayloadAs(GameConfig.class))
+        );
     }
 
     public void start() {
-        while (current != ViewAction.EXIT_APP) {
-            ViewResult<?> result = resolveAndDisplay();
-            current = result.next();
-            payload = result.payload();
-        }
-        exitView.display();
+        currentAction = ViewAction.DISPLAY_MAIN_MENU;
+
+        ViewResult<?> result = resolveView().display();
+
+        do {
+            currentAction = result.next();
+            currentPayload = result.payload();
+            result = resolveView().display();
+        } while (!isExitAction(currentAction));
     }
 
-    private ViewResult<?> resolveAndDisplay() {
-        if (current == ViewAction.DISPLAY_GAME_GRID) {
-            GameConfig config = getPayloadAs(GameConfig.class);
-            return gameGridViewFactory.create(config).display();
-        }
+    private boolean isExitAction(ViewAction action) { return action == ViewAction.EXIT_APP; }
 
-        View view = staticViews.get(current);
-        if (view != null) return view.display();
 
-        return staticViews.get(ViewAction.DISPLAY_MAIN_MENU).display();
+    private View resolveView() {
+        Supplier<View> supplierViews = viewsMap.get(currentAction);
+
+        if (supplierViews == null) throw new ViewNotFoundException(currentAction);
+
+        return supplierViews.get();
     }
 
     @SuppressWarnings("unchecked")
     private <T> T getPayloadAs(Class<T> type) {
-        if (type.isInstance(payload)) {
-            return (T) payload;
+        if (type.isInstance(currentPayload)) {
+            return (T) currentPayload;
         }
-        throw new InvalidPayloadException(current, type, payload);
+        throw new InvalidPayloadException(currentAction, type, currentPayload);
     }
 }
