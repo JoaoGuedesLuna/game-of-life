@@ -47,9 +47,9 @@ public class CLIGameGridView implements View {
         this.optionReader = optionReader;
 
         this.gameGrid = gridMapper.toGrid(
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
-                gameConfig.getPopulation()
+                gameConfig.width(),
+                gameConfig.height(),
+                gameConfig.population()
         );
 
         this.startOptions = List.of(
@@ -96,11 +96,11 @@ public class CLIGameGridView implements View {
     private void renderStatus() {
         System.out.printf(
                 "[Width=%d, Height=%d, Generation=%d/%d, Speed=%d]%n%n",
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
+                gameConfig.width(),
+                gameConfig.height(),
                 currentGeneration,
-                gameConfig.getGenerations(),
-                gameConfig.getSpeed()
+                gameConfig.generations(),
+                gameConfig.speed()
         );
     }
 
@@ -127,7 +127,7 @@ public class CLIGameGridView implements View {
     }
 
     private void runSimulation() {
-        for (int i = 0; i < gameConfig.getGenerations() - 1; i++) {
+        for (int i = 0; i < gameConfig.generations() - 1; i++) {
             renderFrame();
             delayBetweenFrames();
             advanceGeneration();
@@ -138,7 +138,7 @@ public class CLIGameGridView implements View {
 
     private void delayBetweenFrames() {
         try {
-            Thread.sleep(gameConfig.getSpeed());
+            Thread.sleep(gameConfig.speed());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
