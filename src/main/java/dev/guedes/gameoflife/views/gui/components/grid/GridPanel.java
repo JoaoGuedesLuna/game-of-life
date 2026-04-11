@@ -2,6 +2,8 @@ package dev.guedes.gameoflife.views.gui.components.grid;
 
 import dev.guedes.gameoflife.models.Grid;
 import dev.guedes.gameoflife.enums.Cell;
+import lombok.Setter;
+
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -19,11 +21,11 @@ import java.util.Arrays;
 
 import static dev.guedes.gameoflife.config.GameLimits.MAX_HEIGHT;
 import static dev.guedes.gameoflife.config.GameLimits.MAX_WIDTH;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_BG_COLOR;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_CELL_ALIVE_COLOR;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_LINE_COLOR;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_MAX_ZOOM;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_MIN_ZOOM;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.GRID_ALIVE_COLOR;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.GRID_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.GRID_LINE_COLOR;
+import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.GRID_MAX_ZOOM;
+import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.GRID_MIN_ZOOM;
 
 /**
  * Component responsible for rendering the Game of Life grid with zoom support.
@@ -32,10 +34,11 @@ import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.GRID_MIN_ZOOM;
  */
 public class GridPanel extends JPanel {
     private Grid grid;
+    @Setter private Runnable onGridChanged;
     private int cellSize = 20;
 
     public GridPanel() {
-        this.setBackground(GRID_BG_COLOR);
+        this.setBackground(GRID_BG);
         this.setupInteractions();
         this.initializeEmptyGrid();
     }
@@ -52,8 +55,35 @@ public class GridPanel extends JPanel {
         drawGridLines(g2);
     }
 
+    public void clear() {
+        initializeEmptyGrid();
+    }
+
+    public void reset() {
+        grid.restoreSnapshot();
+        repaint();
+    }
+
+    public void save() {
+        grid.saveSnapshot();
+    }
+
+    public void advanceGeneration() {
+        grid.update();
+        this.repaint();
+    }
+
+    public boolean hasLivingCells() {
+        for (int r = 0; r < grid.getHeight(); r++) {
+            for (int c = 0; c < grid.getWidth(); c++) {
+                if (grid.isCellAlive(r, c)) return true;
+            }
+        }
+        return false;
+    }
+
     private void drawCells(Graphics2D g) {
-        g.setColor(GRID_CELL_ALIVE_COLOR);
+        g.setColor(GRID_ALIVE_COLOR);
         Rectangle clip = g.getClipBounds();
 
         int firstRow = Math.max(0, clip.y / cellSize);
@@ -139,6 +169,7 @@ public class GridPanel extends JPanel {
 
         try {
             grid.toggleCell(row, col);
+            if (onGridChanged != null) onGridChanged.run();
             repaint();
         } catch (Exception ignored) {}
     }

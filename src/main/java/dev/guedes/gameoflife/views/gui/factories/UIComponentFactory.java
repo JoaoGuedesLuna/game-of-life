@@ -4,8 +4,8 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.BTN_ACTIVE_BG_COLOR;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.BTN_ACTIVE_FG_COLOR;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_FG;
 
 /**
  * Utility class for creating and styling Swing components.
@@ -22,8 +22,23 @@ public final class UIComponentFactory {
         btn.setFocusPainted(false);
         btn.setFont(font);
         btn.setPreferredSize(size);
-        btn.setBackground(BTN_ACTIVE_BG_COLOR);
-        btn.setForeground(BTN_ACTIVE_FG_COLOR);
+        btn.setBackground(BTN_ACTIVE_BG);
+        btn.setForeground(BTN_ACTIVE_FG);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (btn.isEnabled()) {
+                    btn.setBorderPainted(true);
+                }
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                btn.setBorderPainted(false);
+            }
+        });
         return btn;
     }
 }
