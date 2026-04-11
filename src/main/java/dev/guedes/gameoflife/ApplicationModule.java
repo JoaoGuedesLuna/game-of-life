@@ -25,6 +25,7 @@ import dev.guedes.gameoflife.views.cli.CLIExplanationView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
 import dev.guedes.gameoflife.views.gui.GUIMainView;
 import dev.guedes.gameoflife.views.gui.SwingViewManager;
+import dev.guedes.gameoflife.views.gui.components.footer.Footer;
 import dev.guedes.gameoflife.views.gui.components.grid.GridPanel;
 import dev.guedes.gameoflife.views.gui.components.header.Header;
 import java.util.Scanner;
@@ -68,6 +69,7 @@ public class ApplicationModule extends AbstractModule {
         bind(GUIMainView.class).in(Singleton.class);
         bind(Header.class).in(Singleton.class);
         bind(GridPanel.class).in(Singleton.class);
+        bind(Footer.class).in(Singleton.class);
     }
 
     @Provides

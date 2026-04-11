@@ -8,9 +8,16 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.*;
-import static dev.guedes.gameoflife.views.gui.constants.GUIStyle.BTN_ACTIVE_FG_COLOR;
 import static dev.guedes.gameoflife.views.gui.factories.UIComponentFactory.createButton;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_FG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_DISABLED_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_DISABLED_FG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIColors.FOOTER_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.BTN_NORMAL_SIZE;
+import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.BTN_START_SIZE;
+import static dev.guedes.gameoflife.views.gui.styles.GUITypography.BTN_NORMAL_FONT;
+import static dev.guedes.gameoflife.views.gui.styles.GUITypography.BTN_START_FONT;
 
 /**
  * Footer panel containing game controls and rules shortcut.
@@ -40,7 +47,7 @@ public class Footer extends JPanel {
     }
 
     private void setupLayout() {
-        this.setBackground(FOOTER_BG_COLOR);
+        this.setBackground(FOOTER_BG);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
         this.setBorder(new EmptyBorder(10, 20, 10, 20));
     }
@@ -53,15 +60,15 @@ public class Footer extends JPanel {
     }
 
     private void initializeComponents() {
-        rulesBtn = createButton("Rules", BTN_SIZE_NORMAL, BTN_FONT_NORMAL);
+        rulesBtn = createButton("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
 
-        startStopBtn = createButton("Start", BTN_SIZE_START, BTN_FONT_START);
+        startStopBtn = createButton("Start", BTN_START_SIZE, BTN_START_FONT);
         startStopBtn.addActionListener(e -> handleStartPause());
 
-        nextBtn = createButton("Next", BTN_SIZE_NORMAL, BTN_FONT_NORMAL);
+        nextBtn = createButton("Next", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
         nextBtn.addActionListener(e -> handleNext());
 
-        clearResetBtn = createButton("Clear", BTN_SIZE_NORMAL, BTN_FONT_NORMAL);
+        clearResetBtn = createButton("Clear", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
         clearResetBtn.addActionListener(e -> handleClearReset());
 
         this.add(rulesBtn);
@@ -111,8 +118,8 @@ public class Footer extends JPanel {
             JButton[] buttons = { startStopBtn, nextBtn, clearResetBtn };
 
             for (JButton btn : buttons) {
-                btn.setBackground(BTN_DISABLED_BG_COLOR);
-                btn.setForeground(BTN_DISABLED_FG_COLOR);
+                btn.setBackground(BTN_DISABLED_BG);
+                btn.setForeground(BTN_DISABLED_FG);
             }
             gridPanel.clear();
         }
@@ -131,11 +138,11 @@ public class Footer extends JPanel {
 
         for (JButton btn : buttons) {
             if (hasLife) {
-                btn.setBackground(BTN_ACTIVE_BG_COLOR);
-                btn.setForeground(BTN_ACTIVE_FG_COLOR);
+                btn.setBackground(BTN_ACTIVE_BG);
+                btn.setForeground(BTN_ACTIVE_FG);
             } else {
-                btn.setBackground(BTN_DISABLED_BG_COLOR);
-                btn.setForeground(BTN_DISABLED_FG_COLOR);
+                btn.setBackground(BTN_DISABLED_BG);
+                btn.setForeground(BTN_DISABLED_FG);
             }
         }
     }
