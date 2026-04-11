@@ -3,9 +3,9 @@ package dev.guedes.gameoflife.views.gui.components.grid;
 import dev.guedes.gameoflife.models.Grid;
 import dev.guedes.gameoflife.enums.Cell;
 import lombok.Setter;
-
 import javax.swing.JPanel;
 import javax.swing.JViewport;
+import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 import java.awt.BasicStroke;
 import java.awt.Container;
@@ -32,7 +32,7 @@ import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.GRID_MIN_ZOOM
  *
  * @author João Guedes
  */
-public class GridPanel extends JPanel {
+public class GridPanel extends JPanel implements Scrollable {
     private Grid grid;
     @Setter private Runnable onGridChanged;
     private int cellSize = 20;
@@ -53,6 +53,31 @@ public class GridPanel extends JPanel {
 
         drawCells(g2);
         drawGridLines(g2);
+    }
+
+    @Override
+    public Dimension getPreferredScrollableViewportSize() {
+        return getPreferredSize();
+    }
+
+    @Override
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return cellSize; // scroll por célula
+    }
+
+    @Override
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
+        return cellSize * 5; // scroll maior
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return false;
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportHeight() {
+        return false;
     }
 
     public void clear() {
