@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.HeadlessException;
-import java.util.Optional;
+import java.net.URL;
 
 /**
  * A reusable frame class for the application.
@@ -14,20 +14,17 @@ import java.util.Optional;
 public class Frame extends JFrame {
     public Frame(String title, int width, int height) throws HeadlessException {
         super(title);
-        setupDefaultSettings(width, height);
-        loadIcon("/assets/icon.png");
-    }
-
-    private void setupDefaultSettings(int width, int height) {
+        setIcon();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width, height);
         setLocationRelativeTo(null);
     }
 
-    private void loadIcon(String path) {
-        Optional.ofNullable(getClass().getResource(path))
-                .map(ImageIcon::new)
-                .map(ImageIcon::getImage)
-                .ifPresent(this::setIconImage);
+    private void setIcon() {
+        URL url = getClass().getResource("/assets/icon.png");
+        if (url == null) return;
+
+        ImageIcon imageIcon = new ImageIcon(url);
+        setIconImage(imageIcon.getImage());
     }
 }
