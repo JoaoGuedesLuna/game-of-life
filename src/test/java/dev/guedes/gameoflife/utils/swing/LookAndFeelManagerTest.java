@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,15 +20,12 @@ import static org.mockito.Mockito.when;
  */
 class LookAndFeelManagerTest {
     @Test
-    void constructor_ShouldThrowUnsupportedOperationException() {
-        Constructor<?>[] constructors = LookAndFeelManager.class.getDeclaredConstructors();
-        constructors[0].setAccessible(true);
+    void constructor_ShouldThrowUnsupportedOperationException() throws NoSuchMethodException {
+        Constructor<LookAndFeelManager> constructor = LookAndFeelManager.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
 
-        assertThrows(
-                InvocationTargetException.class,
-                () -> constructors[0].newInstance(),
-                "Expected constructor to throw UnsupportedOperationException"
-        );
+        InvocationTargetException ex = assertThrows(InvocationTargetException.class, constructor::newInstance);
+        assertInstanceOf(UnsupportedOperationException.class, ex.getCause());
     }
 
     @Test
