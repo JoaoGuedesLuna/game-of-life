@@ -1,5 +1,5 @@
 <h1>🕹 Game of Life</h1>
-
+https://playgameoflife.com/
 <p style="text-align: center">
   "We don’t program life. We let it happen."
 </p>
@@ -55,7 +55,7 @@
 <h3>Using the Executable JAR</h3>
 <ol>
   <li>Navigate to the <code>/dist</code> folder.</li>
-  <li>Run the <code>pray-for-one-another-1.0.jar</code> file via terminal:<br>
+  <li>Run the <code>game-of-life-1.0.0.jar</code> file via terminal:<br>
     <code>java -jar game-of-life-1.0.0.jar</code>
   </li>
 </ol>

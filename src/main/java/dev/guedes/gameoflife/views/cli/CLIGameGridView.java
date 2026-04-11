@@ -13,7 +13,6 @@ import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewResult;
 import dev.guedes.gameoflife.views.cli.component.CLIOption;
-
 import java.util.List;
 
 /**
@@ -26,14 +25,14 @@ public class CLIGameGridView implements View {
     private static final String ALIVE_CELL = "\u001B[1m\u001B[30m\u001B[43m[x]\u001B[0m";
     private static final String DEAD_CELL = "\u001B[1m\u001B[37m[ ]\u001B[0m";
 
-    private final OptionReader optionReader;
     private final GameConfig gameConfig;
+    private final Grid gameGrid;
+    private final OptionReader optionReader;
     private final List<CLIOption<Boolean>> startOptions;
     private final List<CLIOption<ViewAction>> endOptions;
     private final BoundedNumberValidator startOptionsValidator;
     private final BoundedNumberValidator endOptionsValidator;
 
-    private Grid gameGrid;
     private int currentGeneration = 1;
 
     @Inject
@@ -129,6 +128,9 @@ public class CLIGameGridView implements View {
     private void runSimulation() {
         for (int i = 0; i < gameConfig.generations() - 1; i++) {
             renderFrame();
+
+            if (!gameGrid.hasLivingCells()) break;
+
             delayBetweenFrames();
             advanceGeneration();
         }
