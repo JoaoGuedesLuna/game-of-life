@@ -1,6 +1,7 @@
 package dev.guedes.gameoflife.views.gui.components.footer;
 
 import com.google.inject.Inject;
+import dev.guedes.gameoflife.views.gui.components.buttons.Button;
 import dev.guedes.gameoflife.views.gui.components.grid.GridPanel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -8,7 +9,6 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 
-import static dev.guedes.gameoflife.views.gui.factories.UIComponentFactory.createButton;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_BG;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_FG;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_DISABLED_BG;
@@ -60,15 +60,15 @@ public class Footer extends JPanel {
     }
 
     private void initializeComponents() {
-        rulesBtn = createButton("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        rulesBtn = new Button("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
 
-        startStopBtn = createButton("Start", BTN_START_SIZE, BTN_START_FONT);
+        startStopBtn = new Button("Start", BTN_START_SIZE, BTN_START_FONT);
         startStopBtn.addActionListener(e -> handleStartPause());
 
-        nextBtn = createButton("Next", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        nextBtn = new Button("Next", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
         nextBtn.addActionListener(e -> handleNext());
 
-        clearResetBtn = createButton("Clear", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        clearResetBtn = new Button("Clear", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
         clearResetBtn.addActionListener(e -> handleClearReset());
 
         this.add(rulesBtn);
