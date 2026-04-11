@@ -14,14 +14,14 @@ import java.net.URL;
 public class Frame extends JFrame {
     public Frame(String title, int width, int height) throws HeadlessException {
         super(title);
-        setIcon();
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(width, height);
-        setLocationRelativeTo(null);
+        this.setIcon("/assets/icon.png");
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setSize(width, height);
+        this.setLocationRelativeTo(null);
     }
 
-    private void setIcon() {
-        URL url = getClass().getResource("/assets/icon.png");
+    private void setIcon(String iconPath) {
+        URL url = getClass().getResource(iconPath);
         if (url == null) return;
 
         ImageIcon imageIcon = new ImageIcon(url);
