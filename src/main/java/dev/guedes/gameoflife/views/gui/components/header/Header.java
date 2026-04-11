@@ -20,16 +20,15 @@ import static dev.guedes.gameoflife.views.gui.styles.GUITypography.HEADER_FONT;
  * @author João Guedes
  */
 public class Header extends JPanel {
-    public Header() { setupLayout(); addTitle(); }
-
-    private void setupLayout() {
-        this.setBackground(HEADER_BG);
+    public Header() {
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(10, 20, 10, 20));
+        this.setBackground(HEADER_BG);
+        this.setTitle(APP_TITLE);
     }
 
-    private void addTitle() {
-        JLabel titleLabel = new JLabel(APP_TITLE);
+    private void setTitle(String title) {
+        JLabel titleLabel = new JLabel(title);
         titleLabel.setForeground(HEADER_FG);
         titleLabel.setFont(HEADER_FONT);
 
