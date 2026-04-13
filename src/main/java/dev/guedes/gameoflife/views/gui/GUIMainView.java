@@ -56,6 +56,7 @@ public class GUIMainView extends Frame implements View {
         JScrollPane scrollPane = new JScrollPane(gridPanel);
 
         hideScrollBars(scrollPane);
+        removeBorders(scrollPane);
         enableDragToScroll(gridPanel, scrollPane);
 
         return scrollPane;
@@ -64,6 +65,11 @@ public class GUIMainView extends Frame implements View {
     private void hideScrollBars(JScrollPane scrollPane) {
         scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
+    }
+
+    private void removeBorders(JScrollPane scrollPane) {
+        scrollPane.setBorder(null);
+        scrollPane.getViewport().setBorder(null);
     }
 
     private void enableDragToScroll(GridPanel gridPanel, JScrollPane scrollPane) {
