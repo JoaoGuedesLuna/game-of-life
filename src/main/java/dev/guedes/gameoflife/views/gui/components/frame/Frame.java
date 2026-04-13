@@ -2,7 +2,6 @@ package dev.guedes.gameoflife.views.gui.components.frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 import java.awt.HeadlessException;
 import java.net.URL;
 
@@ -12,12 +11,14 @@ import java.net.URL;
  * @author João Guedes
  */
 public class Frame extends JFrame {
-    public Frame(String title, int width, int height) throws HeadlessException {
+    public Frame(String title, int width, int height, boolean maximized) throws HeadlessException {
         super(title);
         this.setIcon("/assets/icon.png");
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
+
+        if (maximized) this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     private void setIcon(String iconPath) {

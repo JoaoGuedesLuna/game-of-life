@@ -22,7 +22,7 @@ import static dev.guedes.gameoflife.views.gui.styles.GUIMetadata.APP_TITLE;
 public class GUIMainView extends Frame implements View {
     @Inject
     public GUIMainView(Header header, GridPanel gridPanel, Footer footer) {
-        super(APP_TITLE, APP_DEFAULT_WIDTH, APP_DEFAULT_HEIGHT);
+        super(APP_TITLE, APP_DEFAULT_WIDTH, APP_DEFAULT_HEIGHT, true);
 
         this.setLayout(new BorderLayout());
 
