@@ -6,6 +6,8 @@ import dev.guedes.gameoflife.exceptions.InvalidCellCoordinatesException;
 import dev.guedes.gameoflife.exceptions.InvalidGridDimensionsException;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * Represents the grid for Conway's Game of Life. Each cell can either be alive or dead, and the grid evolves over
  * discrete steps based on its neighbors.
@@ -79,6 +81,10 @@ public class Grid {
         for (int i = 0; i < height; i++) {
             System.arraycopy(snapshot[i], 0, cells[i], 0, width);
         }
+    }
+
+    public void clear() {
+        for (int row = 0; row < height; row++) Arrays.fill(cells[row], Cell.DEAD);
     }
 
     private Cell getNewCellState(int row, int col) {
