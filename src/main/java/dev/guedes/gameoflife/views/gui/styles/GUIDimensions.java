@@ -13,8 +13,7 @@ public final class GUIDimensions {
     public static final Dimension BTN_NORMAL_SIZE = new Dimension(100, 40);
     public static final Dimension BTN_START_SIZE = new Dimension(140, 50);
 
-    public static final int GRID_MIN_ZOOM = 8;
-    public static final int GRID_MAX_ZOOM = 50;
+    public static final int GRID_CELL_SIZE = 10;
 
     private GUIDimensions() {}
 }
