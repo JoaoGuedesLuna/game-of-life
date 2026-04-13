@@ -15,7 +15,7 @@ public final class GUIColors {
 
     public static final Color GRID_BG = new Color(126, 126, 126);
     public static final Color GRID_LINE_COLOR = new Color(153, 153, 153);
-    public static final Color GRID_ALIVE_COLOR = new Color(200, 200, 200);
+    public static final Color GRID_ALIVE_COLOR = new Color(255, 255, 0);
 
     public static final Color FOOTER_BG = new Color(100, 100, 100);
 
