@@ -70,8 +70,11 @@ public class GridPanel extends JPanel {
 
     public void advanceGeneration() {
         if (grid == null) return;
+
         grid.update();
         repaint();
+
+        if (onGridChanged != null) onGridChanged.run();
     }
 
     public boolean hasLivingCells() { return grid != null && grid.hasLivingCells(); }
