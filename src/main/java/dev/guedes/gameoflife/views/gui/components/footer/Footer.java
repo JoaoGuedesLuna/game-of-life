@@ -55,9 +55,11 @@ public class Footer extends JPanel {
         boolean hasLivingCells = gridPanel.hasLivingCells();
 
         if (!hasLivingCells) {
+            timer.stop();
             isRunning = false;
             startStopBtn.setText(BTN_START_TEXT);
-            timer.stop();
+            clearResetBtn.setText(BTN_CLEAR_TEXT);
+            gridPanel.save();
         }
 
         JButton[] buttons = { startStopBtn, nextBtn, clearResetBtn };
