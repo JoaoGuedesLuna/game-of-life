@@ -25,6 +25,11 @@ import static dev.guedes.gameoflife.views.gui.styles.GUITypography.BTN_START_FON
  * @author João Guedes
  */
 public class Footer extends JPanel {
+    private static final String BTN_START_TEXT = "Start";
+    private static final String BTN_STOP_TEXT = "Stop";
+    private static final String BTN_NEXT_TEXT = "Next";
+    private static final String BTN_CLEAR_TEXT = "Clear";
+    private static final String BTN_RESET_TEXT = "Reset";
     private static final int DELAY = 200;
 
     private final GridPanel gridPanel;
@@ -33,7 +38,7 @@ public class Footer extends JPanel {
     private JButton nextBtn;
     private JButton clearResetBtn;
     private Timer timer;
-    private boolean startClicked = false;
+    private boolean startNextClicked = false;
     private boolean isRunning = false;
 
     @Inject
@@ -43,101 +48,22 @@ public class Footer extends JPanel {
 
         this.setupLayout();
         this.setupTimer();
-        this.initializeComponents();
+        this.initComponents();
     }
 
-    private void setupLayout() {
-        this.setBackground(FOOTER_BG);
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
-        this.setBorder(new EmptyBorder(10, 20, 10, 20));
-    }
+    private void updateButtonStates() {
+        boolean hasLivingCells = gridPanel.hasLivingCells();
 
-    private void setupTimer() {
-        timer = new Timer(DELAY, e -> {
-            gridPanel.advanceGeneration();
-            updateButtonStates();
-        });
-    }
-
-    private void initializeComponents() {
-        rulesBtn = new Button("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
-
-        startStopBtn = new Button("Start", BTN_START_SIZE, BTN_START_FONT);
-        startStopBtn.addActionListener(e -> handleStartPause());
-
-        nextBtn = new Button("Next", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
-        nextBtn.addActionListener(e -> handleNext());
-
-        clearResetBtn = new Button("Clear", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
-        clearResetBtn.addActionListener(e -> handleClearReset());
-
-        this.add(rulesBtn);
-        this.add(startStopBtn);
-        this.add(nextBtn);
-        this.add(clearResetBtn);
-
-        updateButtonStates();
-    }
-
-    private void handleStartPause() {
-        startClicked = true;
-        isRunning = !isRunning;
-
-        if (isRunning) {
-            startStopBtn.setText("Stop");
-            clearResetBtn.setText("Reset");
-            gridPanel.save();
-            timer.start();
-        } else {
-            startStopBtn.setText("Start");
-            timer.stop();
-        }
-    }
-
-    private void handleNext() {
-        if (isRunning) return;
-
-        if (!startClicked) {
-            startClicked = true;
-            clearResetBtn.setText("Reset");
-            gridPanel.save();
-        }
-
-        gridPanel.advanceGeneration();
-        updateButtonStates();
-    }
-
-    private void handleClearReset() {
-        if (startClicked && isRunning) {
-            gridPanel.reset();
-        } else if (startClicked) {
-            startClicked = false;
-            clearResetBtn.setText("Clear");
-            gridPanel.reset();
-        } else {
-            JButton[] buttons = { startStopBtn, nextBtn, clearResetBtn };
-
-            for (JButton btn : buttons) {
-                btn.setBackground(BTN_DISABLED_BG);
-                btn.setForeground(BTN_DISABLED_FG);
-            }
-            gridPanel.clear();
-        }
-    }
-
-    public void updateButtonStates() {
-        boolean hasLife = gridPanel.hasLivingCells();
-
-        if (!hasLife) {
+        if (!hasLivingCells) {
             isRunning = false;
-            startStopBtn.setText("Start");
+            startStopBtn.setText(BTN_START_TEXT);
             timer.stop();
         }
 
         JButton[] buttons = { startStopBtn, nextBtn, clearResetBtn };
 
         for (JButton btn : buttons) {
-            if (hasLife) {
+            if (hasLivingCells) {
                 btn.setBackground(BTN_ACTIVE_BG);
                 btn.setForeground(BTN_ACTIVE_FG);
             } else {
@@ -145,5 +71,99 @@ public class Footer extends JPanel {
                 btn.setForeground(BTN_DISABLED_FG);
             }
         }
+    }
+
+    private void setupLayout() {
+        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
+        setBorder(new EmptyBorder(10, 20, 10, 20));
+        setBackground(FOOTER_BG);
+    }
+
+    private void setupTimer() {
+        timer = new Timer(DELAY, e -> gridPanel.advanceGeneration());
+    }
+
+    private void initComponents() {
+        rulesBtn = new Button("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+
+        startStopBtn = new Button(BTN_START_TEXT, BTN_START_SIZE, BTN_START_FONT);
+        startStopBtn.setBackground(BTN_DISABLED_BG);
+        startStopBtn.setForeground(BTN_DISABLED_FG);
+        startStopBtn.addActionListener(e -> handleStartStop());
+
+        nextBtn = new Button(BTN_NEXT_TEXT, BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        nextBtn.setBackground(BTN_DISABLED_BG);
+        nextBtn.setForeground(BTN_DISABLED_FG);
+        nextBtn.addActionListener(e -> handleNext());
+
+        clearResetBtn = new Button(BTN_CLEAR_TEXT, BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        clearResetBtn.setBackground(BTN_DISABLED_BG);
+        clearResetBtn.setForeground(BTN_DISABLED_FG);
+        clearResetBtn.addActionListener(e -> handleClearReset());
+
+        add(rulesBtn);
+        add(startStopBtn);
+        add(nextBtn);
+        add(clearResetBtn);
+    }
+
+    private void handleStartStop() {
+        if (!gridPanel.hasLivingCells()) return;
+
+        isRunning = !isRunning;
+
+        if (!isRunning) {
+            startStopBtn.setText(BTN_START_TEXT);
+            timer.stop();
+            return;
+        }
+
+        if (!startNextClicked) {
+            startNextClicked = true;
+            gridPanel.save();
+        }
+
+        startStopBtn.setText(BTN_STOP_TEXT);
+        clearResetBtn.setText(BTN_RESET_TEXT);
+        timer.start();
+    }
+
+    private void handleNext() {
+        if (isRunning) return;
+
+        if (!gridPanel.hasLivingCells()) return;
+
+        if (!startNextClicked) {
+            startNextClicked = true;
+            clearResetBtn.setText(BTN_RESET_TEXT);
+            gridPanel.save();
+        }
+
+        gridPanel.advanceGeneration();
+    }
+
+    private void handleClearReset() {
+        if (!gridPanel.hasLivingCells()) return;
+
+        if (isRunning) {
+            gridPanel.reset();
+            return;
+        }
+
+        if (startNextClicked) {
+            startNextClicked = false;
+            clearResetBtn.setText(BTN_CLEAR_TEXT);
+            gridPanel.reset();
+            return;
+        }
+
+        JButton[] buttons = { startStopBtn, nextBtn, clearResetBtn };
+
+        for (JButton btn : buttons) {
+            btn.setBackground(BTN_DISABLED_BG);
+            btn.setForeground(BTN_DISABLED_FG);
+        }
+
+        gridPanel.clear();
     }
 }
