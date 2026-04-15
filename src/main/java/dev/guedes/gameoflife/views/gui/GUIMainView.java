@@ -36,7 +36,8 @@ public class GUIMainView extends Frame implements View {
                 APP_TITLE,
                 ScreenUtils.getScreenWidth() + GRID_CELL_SIZE * 2,
                 ScreenUtils.getScreenHeight() - GRID_CELL_SIZE,
-                true
+                true,
+                EXIT_ON_CLOSE
         );
 
         this.setLayout(new BorderLayout());

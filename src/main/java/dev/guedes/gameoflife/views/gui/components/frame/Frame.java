@@ -11,10 +11,10 @@ import java.net.URL;
  * @author João Guedes
  */
 public class Frame extends JFrame {
-    public Frame(String title, int width, int height, boolean maximized) throws HeadlessException {
+    public Frame(String title, int width, int height, boolean maximized, int closeOperation) throws HeadlessException {
         super(title);
         this.setIcon("/assets/icon.png");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(closeOperation);
         this.setSize(width, height);
         this.setLocationRelativeTo(null);
 
