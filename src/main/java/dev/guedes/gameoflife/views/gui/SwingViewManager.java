@@ -5,6 +5,7 @@ import dev.guedes.gameoflife.utils.swing.LookAndFeelManager;
 import dev.guedes.gameoflife.utils.swing.LookAndFeelType;
 import dev.guedes.gameoflife.views.ViewManager;
 import javax.swing.SwingUtilities;
+import java.util.logging.Logger;
 
 /**
  * Manages the flow and navigation of the Graphical User Interface (GUI) based on Swing.
@@ -19,13 +20,25 @@ import javax.swing.SwingUtilities;
  * @author João Guedes
  */
 public class SwingViewManager implements ViewManager {
+    private static final Logger logger = Logger.getLogger(SwingViewManager.class.getName());
+
     private final GUIMainView guiMainView;
 
     @Inject
     public SwingViewManager(GUIMainView guiMainView) { this.guiMainView = guiMainView; }
 
     public void start() {
-        LookAndFeelManager.setLookAndFeel(LookAndFeelType.WINDOWS);
-        SwingUtilities.invokeLater(guiMainView::display);
+        configureLookAndFeel();
+        displayMainView();
     }
+
+    private static void configureLookAndFeel() {
+        try {
+            LookAndFeelManager.setLookAndFeel(LookAndFeelType.WINDOWS);
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+        }
+    }
+
+    private void displayMainView() { SwingUtilities.invokeLater(guiMainView::display); }
 }
