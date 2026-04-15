@@ -10,6 +10,7 @@ import java.awt.Dimension;
  * @author João Guedes
  */
 public final class GUIDimensions {
+    public static final Dimension BTN_EXPLANATION_SIZE = new Dimension(150, 40);
     public static final Dimension BTN_NORMAL_SIZE = new Dimension(100, 40);
     public static final Dimension BTN_START_SIZE = new Dimension(140, 50);
 
