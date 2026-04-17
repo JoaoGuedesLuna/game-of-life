@@ -1,6 +1,7 @@
 package dev.guedes.gameoflife.views.gui.components.buttons;
 
 import javax.swing.JButton;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -21,6 +22,8 @@ public class Button extends JButton {
         this.setForeground(BTN_ACTIVE_FG);
 
         this.setPreferredSize(size);
+
+        this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         this.setFocusPainted(false);
         this.setBorderPainted(false);
