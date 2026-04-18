@@ -48,8 +48,10 @@ public class ComponentFactory {
         pane.setOpaque(false);
         pane.setAlignmentX(Component.LEFT_ALIGNMENT);
         pane.setBorder(new EmptyBorder(5, 0, 5, 0));
+        pane.setSize(new Dimension(width, Integer.MAX_VALUE));
+        Dimension pref = pane.getPreferredSize();
         pane.setMaximumSize(new Dimension(width, Integer.MAX_VALUE));
-        pane.setPreferredSize(new Dimension(width, pane.getPreferredSize().height));
+        pane.setPreferredSize(new Dimension(width, pref.height));
         return pane;
     }
 
