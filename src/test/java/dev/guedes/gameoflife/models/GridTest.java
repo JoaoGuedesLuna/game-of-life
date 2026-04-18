@@ -358,4 +358,27 @@ class GridTest {
         assertEquals(Cell.ALIVE, grid.getCell(0, 2));
         assertEquals(Cell.DEAD, grid.getCell(1, 1));
     }
+
+    @Test
+    void clear_ShouldSetAllCellsToDead() {
+        Cell[][] cells = {
+                {Cell.ALIVE, Cell.DEAD, Cell.ALIVE},
+                {Cell.ALIVE, Cell.ALIVE, Cell.DEAD},
+                {Cell.DEAD, Cell.ALIVE, Cell.ALIVE}
+        };
+
+        Grid grid = new Grid(cells);
+
+        assertTrue(grid.hasLivingCells());
+
+        grid.clear();
+
+        for (int row = 0; row < grid.getHeight(); row++) {
+            for (int col = 0; col < grid.getWidth(); col++) {
+                assertEquals(Cell.DEAD, grid.getCell(row, col));
+            }
+        }
+
+        assertFalse(grid.hasLivingCells());
+    }
 }
