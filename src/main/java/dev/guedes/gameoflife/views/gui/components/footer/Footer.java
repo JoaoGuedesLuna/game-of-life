@@ -1,6 +1,7 @@
 package dev.guedes.gameoflife.views.gui.components.footer;
 
 import com.google.inject.Inject;
+import dev.guedes.gameoflife.views.gui.GUIExplanationView;
 import dev.guedes.gameoflife.views.gui.components.buttons.Button;
 import dev.guedes.gameoflife.views.gui.components.grid.GridPanel;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_ACTIVE_FG;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_DISABLED_BG;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.BTN_DISABLED_FG;
 import static dev.guedes.gameoflife.views.gui.styles.GUIColors.FOOTER_BG;
+import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.BTN_EXPLANATION_SIZE;
 import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.BTN_NORMAL_SIZE;
 import static dev.guedes.gameoflife.views.gui.styles.GUIDimensions.BTN_START_SIZE;
 import static dev.guedes.gameoflife.views.gui.styles.GUITypography.BTN_NORMAL_FONT;
@@ -25,6 +27,7 @@ import static dev.guedes.gameoflife.views.gui.styles.GUITypography.BTN_START_FON
  * @author João Guedes
  */
 public class Footer extends JPanel {
+    private static final String BTN_EXPLANATION_TEXT = "Explanation";
     private static final String BTN_START_TEXT = "Start";
     private static final String BTN_STOP_TEXT = "Stop";
     private static final String BTN_NEXT_TEXT = "Next";
@@ -33,7 +36,8 @@ public class Footer extends JPanel {
     private static final int DELAY = 200;
 
     private final GridPanel gridPanel;
-    private JButton rulesBtn;
+    private final GUIExplanationView explanationView;
+    private JButton explanationBtn;
     private JButton startStopBtn;
     private JButton nextBtn;
     private JButton clearResetBtn;
@@ -42,9 +46,11 @@ public class Footer extends JPanel {
     private boolean isRunning = false;
 
     @Inject
-    public Footer(GridPanel gridPanel) {
+    public Footer(GridPanel gridPanel, GUIExplanationView explanationView) {
         this.gridPanel = gridPanel;
         this.gridPanel.setOnGridChanged(this::updateButtonStates);
+
+        this.explanationView = explanationView;
 
         this.setupLayout();
         this.setupTimer();
@@ -86,7 +92,8 @@ public class Footer extends JPanel {
     }
 
     private void initComponents() {
-        rulesBtn = new Button("Rules", BTN_NORMAL_SIZE, BTN_NORMAL_FONT);
+        explanationBtn = new Button(BTN_EXPLANATION_TEXT, BTN_EXPLANATION_SIZE, BTN_NORMAL_FONT);
+        explanationBtn.addActionListener(e -> handleExplanation());
 
         startStopBtn = new Button(BTN_START_TEXT, BTN_START_SIZE, BTN_START_FONT);
         startStopBtn.setBackground(BTN_DISABLED_BG);
@@ -103,11 +110,13 @@ public class Footer extends JPanel {
         clearResetBtn.setForeground(BTN_DISABLED_FG);
         clearResetBtn.addActionListener(e -> handleClearReset());
 
-        add(rulesBtn);
+        add(explanationBtn);
         add(startStopBtn);
         add(nextBtn);
         add(clearResetBtn);
     }
+
+    private void handleExplanation() { explanationView.display(); }
 
     private void handleStartStop() {
         if (!gridPanel.hasLivingCells()) return;

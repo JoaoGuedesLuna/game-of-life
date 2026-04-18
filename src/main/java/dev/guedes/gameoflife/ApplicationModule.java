@@ -23,6 +23,7 @@ import dev.guedes.gameoflife.views.cli.CLIGameGridViewFactory;
 import dev.guedes.gameoflife.views.cli.CLIMainMenuView;
 import dev.guedes.gameoflife.views.cli.CLIExplanationView;
 import dev.guedes.gameoflife.views.cli.CLIViewManager;
+import dev.guedes.gameoflife.views.gui.GUIExplanationView;
 import dev.guedes.gameoflife.views.gui.GUIMainView;
 import dev.guedes.gameoflife.views.gui.SwingViewManager;
 import dev.guedes.gameoflife.views.gui.components.footer.Footer;
@@ -67,6 +68,7 @@ public class ApplicationModule extends AbstractModule {
 
         bind(ViewManager.class).annotatedWith(Names.named("Swing")).to(SwingViewManager.class).in(Singleton.class);
         bind(GUIMainView.class).in(Singleton.class);
+        bind(GUIExplanationView.class).in(Singleton.class);
         bind(Header.class).in(Singleton.class);
         bind(GridPanel.class).in(Singleton.class);
         bind(Footer.class).in(Singleton.class);
