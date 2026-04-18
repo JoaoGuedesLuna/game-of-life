@@ -12,10 +12,10 @@ import java.awt.Font;
 public final class GUITypography {
     public static final String FONT_FAMILY = "SansSerif";
 
-    public static final Font HEADER_FONT = new Font(FONT_FAMILY, Font.BOLD, 28);
+    public static final Font TITLE_FONT = new Font(FONT_FAMILY, Font.BOLD, 26);
+    public static final Font SUBTITLE_FONT = new Font(FONT_FAMILY, Font.BOLD, 18);
 
-    public static final Font EXPLANATION_TITLE_FONT = new Font(FONT_FAMILY, Font.BOLD, 26);
-    public static final Font EXPLANATION_SUBTITLE_FONT = new Font(FONT_FAMILY, Font.BOLD, 18);
+    public static final Font HEADER_FONT = new Font(FONT_FAMILY, Font.BOLD, 28);
 
     public static final Font BTN_NORMAL_FONT = new Font(FONT_FAMILY, Font.BOLD, 14);
     public static final Font BTN_START_FONT = new Font(FONT_FAMILY, Font.BOLD, 18);
