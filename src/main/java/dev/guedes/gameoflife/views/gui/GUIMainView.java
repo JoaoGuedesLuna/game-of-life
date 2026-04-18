@@ -5,6 +5,7 @@ import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.utils.swing.ScreenUtils;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewResult;
+import dev.guedes.gameoflife.views.gui.components.ComponentFactory;
 import dev.guedes.gameoflife.views.gui.components.footer.Footer;
 import dev.guedes.gameoflife.views.gui.components.frame.Frame;
 import dev.guedes.gameoflife.views.gui.components.grid.GridPanel;
@@ -54,23 +55,11 @@ public class GUIMainView extends Frame implements View {
     public ViewAction getAction() { return null; }
 
     private JScrollPane createScrollableGrid(GridPanel gridPanel) {
-        JScrollPane scrollPane = new JScrollPane(gridPanel);
+        JScrollPane scrollPane = ComponentFactory.scroll(gridPanel, HORIZONTAL_SCROLLBAR_NEVER, VERTICAL_SCROLLBAR_NEVER);
 
-        hideScrollBars(scrollPane);
-        removeBorders(scrollPane);
         enableDragToScroll(gridPanel, scrollPane);
 
         return scrollPane;
-    }
-
-    private void hideScrollBars(JScrollPane scrollPane) {
-        scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
-    }
-
-    private void removeBorders(JScrollPane scrollPane) {
-        scrollPane.setBorder(null);
-        scrollPane.getViewport().setBorder(null);
     }
 
     private void enableDragToScroll(GridPanel gridPanel, JScrollPane scrollPane) {
