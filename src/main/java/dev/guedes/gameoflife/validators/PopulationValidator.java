@@ -32,7 +32,6 @@ public class PopulationValidator implements Validator {
             char c = population.charAt(i);
 
             if (isRowSeparator(c)) {
-                validateRowLength(currentRowLength);
                 currentRowLength = 0;
                 rowCount = incrementRowCount(rowCount);
             } else if (isCell(c)) {
@@ -46,10 +45,6 @@ public class PopulationValidator implements Validator {
     private boolean isRowSeparator(char c) { return c == '#'; }
 
     private boolean isCell(char c) { return c == '0' || c == '1'; }
-
-    private void validateRowLength(int length) {
-        if (length > width) throw new InvalidPopulationException();
-    }
 
     private int incrementRowLength(int length) {
         int newLength = length + 1;
