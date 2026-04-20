@@ -62,7 +62,7 @@ public class Footer extends JPanel {
 
         if (!hasLivingCells) {
             timer.stop();
-            isRunning = false;
+            isRunning = startNextClicked = false;
             startStopBtn.setText(BTN_START_TEXT);
             clearResetBtn.setText(BTN_CLEAR_TEXT);
             gridPanel.save();
