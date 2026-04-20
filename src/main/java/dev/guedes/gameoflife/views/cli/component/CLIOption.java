@@ -1,7 +1,5 @@
-package dev.guedes.gameoflife.models;
+package dev.guedes.gameoflife.views.cli.component;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import java.util.function.Supplier;
 
 /**
@@ -9,12 +7,6 @@ import java.util.function.Supplier;
  * with a specific action to be executed.
  *
  * @param <T> The type of the result returned by the action.
- *
  * @author João Guedes
  */
-@RequiredArgsConstructor
-@Getter
-public class ViewOption<T> {
-    private final String label;
-    private final Supplier<T> action;
-}
+public record CLIOption<T>(String label, Supplier<T> action) {}

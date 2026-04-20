@@ -62,7 +62,7 @@ public class InputReader {
     private Set<String> normalizeSentinels(Set<String> set) {
         if (set == null) return Set.of();
         return set.stream()
-                .map(String::toLowerCase)
+                .map(s -> s.toLowerCase().trim())
                 .collect(Collectors.toSet());
     }
 }

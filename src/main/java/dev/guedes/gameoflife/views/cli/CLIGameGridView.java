@@ -6,13 +6,13 @@ import dev.guedes.gameoflife.enums.ViewAction;
 import dev.guedes.gameoflife.mappers.GridMapper;
 import dev.guedes.gameoflife.models.GameConfig;
 import dev.guedes.gameoflife.models.Grid;
-import dev.guedes.gameoflife.models.ViewOption;
 import dev.guedes.gameoflife.utils.cli.Terminal;
 import dev.guedes.gameoflife.utils.cli.OptionReader;
 import dev.guedes.gameoflife.validators.BoundedNumberValidator;
 import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
 import dev.guedes.gameoflife.views.View;
 import dev.guedes.gameoflife.views.ViewResult;
+import dev.guedes.gameoflife.views.cli.component.CLIOption;
 import java.util.List;
 
 /**
@@ -25,15 +25,14 @@ public class CLIGameGridView implements View {
     private static final String ALIVE_CELL = "\u001B[1m\u001B[30m\u001B[43m[x]\u001B[0m";
     private static final String DEAD_CELL = "\u001B[1m\u001B[37m[ ]\u001B[0m";
 
-    private final OptionReader optionReader;
     private final GameConfig gameConfig;
-    private final GridMapper gridMapper;
-    private final List<ViewOption<Boolean>> startOptions;
-    private final List<ViewOption<ViewAction>> endOptions;
+    private final Grid gameGrid;
+    private final OptionReader optionReader;
+    private final List<CLIOption<Boolean>> startOptions;
+    private final List<CLIOption<ViewAction>> endOptions;
     private final BoundedNumberValidator startOptionsValidator;
     private final BoundedNumberValidator endOptionsValidator;
 
-    private Grid gameGrid;
     private int currentGeneration = 1;
 
     @Inject
@@ -45,24 +44,23 @@ public class CLIGameGridView implements View {
     ) {
         this.gameConfig = gameConfig;
         this.optionReader = optionReader;
-        this.gridMapper = gridMapper;
 
         this.gameGrid = gridMapper.toGrid(
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
-                gameConfig.getPopulation()
+                gameConfig.width(),
+                gameConfig.height(),
+                gameConfig.population()
         );
 
         this.startOptions = List.of(
-                new ViewOption<>("Start",                 () -> true),
-                new ViewOption<>("Back to configuration", () -> false)
+                new CLIOption<>("Start",                 () -> true),
+                new CLIOption<>("Back to configuration", () -> false)
         );
 
         this.endOptions = List.of(
-                new ViewOption<>("Restart with same configuration", () -> ViewAction.DISPLAY_GAME_GRID),
-                new ViewOption<>("Back to configuration",           () -> ViewAction.DISPLAY_GAME_CONFIG),
-                new ViewOption<>("Back to main menu",               () -> ViewAction.DISPLAY_MAIN_MENU),
-                new ViewOption<>("Exit",                            () -> ViewAction.EXIT_APP)
+                new CLIOption<>("Restart with same configuration", () -> ViewAction.DISPLAY_GAME_GRID),
+                new CLIOption<>("Back to configuration",           () -> ViewAction.DISPLAY_GAME_CONFIG),
+                new CLIOption<>("Back to main menu",               () -> ViewAction.DISPLAY_MAIN_MENU),
+                new CLIOption<>("Exit",                            () -> ViewAction.EXIT_APP)
         );
 
         this.startOptionsValidator = boundedNumberValidatorFactory.create(1, startOptions.size());
@@ -97,11 +95,11 @@ public class CLIGameGridView implements View {
     private void renderStatus() {
         System.out.printf(
                 "[Width=%d, Height=%d, Generation=%d/%d, Speed=%d]%n%n",
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
+                gameConfig.width(),
+                gameConfig.height(),
                 currentGeneration,
-                gameConfig.getGenerations(),
-                gameConfig.getSpeed()
+                gameConfig.generations(),
+                gameConfig.speed()
         );
     }
 
@@ -128,8 +126,11 @@ public class CLIGameGridView implements View {
     }
 
     private void runSimulation() {
-        for (int i = 0; i < gameConfig.getGenerations() - 1; i++) {
+        for (int i = 0; i < gameConfig.generations() - 1; i++) {
             renderFrame();
+
+            if (!gameGrid.hasLivingCells()) break;
+
             delayBetweenFrames();
             advanceGeneration();
         }
@@ -139,7 +140,7 @@ public class CLIGameGridView implements View {
 
     private void delayBetweenFrames() {
         try {
-            Thread.sleep(gameConfig.getSpeed());
+            Thread.sleep(gameConfig.speed());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -161,10 +162,6 @@ public class CLIGameGridView implements View {
 
     private void reset() {
         currentGeneration = 1;
-        gameGrid = gridMapper.toGrid(
-                gameConfig.getWidth(),
-                gameConfig.getHeight(),
-                gameConfig.getPopulation()
-        );
+        gameGrid.restoreSnapshot();
     }
 }

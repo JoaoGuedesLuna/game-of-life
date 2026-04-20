@@ -30,13 +30,28 @@
 
 <h2>🖼️ Screenshots</h2>
 <p>Here are some screenshots of the application interface:</p>
+
+<h3>CLI</h3>
 <ul>
   <img width="100%" src="https://imgur.com/eBpnqsJ.png" alt="CLI Main Menu View">
+  <img width="100%" src="https://imgur.com/RaocHs7.png" alt="CLI Game Explanation View">
   <img width="100%" src="https://imgur.com/T4X9k5R.png" alt="CLI Game Config View">
   <img width="100%" src="https://imgur.com/DizGd2W.png" alt="CLI Game Grid View">
   <img width="100%" src="https://imgur.com/JRZczND.png" alt="CLI Game Grid View">
-<img width="100%" src="https://imgur.com/K6WA1Qm.png" alt="CLI Game Grid View">
-  <img width="100%" src="https://imgur.com/RnP0nKT.png" alt="CLI Game Rules View">
+  <img width="100%" src="https://imgur.com/K6WA1Qm.png" alt="CLI Game Grid View">
+</ul>
+
+<h3>GUI</h3>
+<p style="text-align: justify;">
+  The graphical interface was introduced in version 1.1.0 and was inspired by the web version available at 
+  <a href="https://playgameoflife.com/" target="_blank">playgameoflife.com</a>.
+</p>
+<ul>
+  <img width="100%" src="https://imgur.com/G6uvv5T.png" alt="GUI Main Menu View">
+  <img width="100%" src="https://imgur.com/8tbsZko.png" alt="GUI Game Explanation View">
+  <img width="100%" src="https://imgur.com/jrH6BJL.png" alt="GUI Game Grid View">
+  <img width="100%" src="https://imgur.com/lQ7zY54.png" alt="GUI Game Grid View">
+  <img width="100%" src="https://imgur.com/NG8UgHk.png" alt="GUI Game Grid View">
 </ul>
 
 <hr>
@@ -53,17 +68,26 @@
 </ol>
 
 <h3>Using the Executable JAR</h3>
+<h4>GUI - Default</h4>
 <ol>
   <li>Navigate to the <code>/dist</code> folder.</li>
-  <li>Run the <code>pray-for-one-another-1.0.jar</code> file via terminal:<br>
-    <code>java -jar game-of-life-1.0.0.jar</code>
+  <li>Run the GUI version via terminal:<br>
+    <code>java -jar .\dist\game-of-life-1.1.0.jar</code>
   </li>
 </ol>
 
-<h3>Using the Windows .bat File</h3>
+<h4>CLI</h4>
 <ol>
   <li>Navigate to the <code>/dist</code> folder.</li>
-  <li>Double-click the file <code>game-of-life-1.0.0.bat</code> or run it via terminal:<br>
-        <code>game-of-life-1.0.0.bat</code>
-</li>
+  <li>Run the CLI mode using the flag:<br>
+    <code>java -jar .\dist\game-of-life-1.1.0.jar --cli</code>
+  </li>
+</ol>
+
+<h3>Using the Windows .bat File (CLI)</h3>
+<ol>
+  <li>Navigate to the <code>/dist</code> folder.</li>
+  <li>Double-click the file <code>game-of-life-1.1.0.bat</code> or run it via terminal:<br>
+    <code>game-of-life-1.1.0.bat</code>
+  </li>
 </ol>
