@@ -1,6 +1,7 @@
 package dev.guedes.gameoflife.utils.swing;
 
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 
 /**
@@ -14,11 +15,15 @@ public final class ScreenUtils {
     }
 
     public static int getScreenWidth() {
+        if (GraphicsEnvironment.isHeadless()) return 0;
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return screenSize.width;
     }
 
     public static int getScreenHeight() {
+        if (GraphicsEnvironment.isHeadless()) return 0;
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return screenSize.height;
     }
