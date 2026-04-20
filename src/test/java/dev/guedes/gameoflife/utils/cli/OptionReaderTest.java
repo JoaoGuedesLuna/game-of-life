@@ -1,6 +1,6 @@
 package dev.guedes.gameoflife.utils.cli;
 
-import dev.guedes.gameoflife.models.ViewOption;
+import dev.guedes.gameoflife.views.cli.component.CLIOption;
 import dev.guedes.gameoflife.validators.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +30,9 @@ class OptionReaderTest {
         String header = "Header";
         String prompt = "Prompt";
 
-        ViewOption<String> option1 = new ViewOption<>("One", () -> "1");
-        ViewOption<String> option2 = new ViewOption<>("Two", () -> "2");
-        List<ViewOption<String>> options = List.of(option1, option2);
+        CLIOption<String> option1 = new CLIOption<>("One", () -> "1");
+        CLIOption<String> option2 = new CLIOption<>("Two", () -> "2");
+        List<CLIOption<String>> options = List.of(option1, option2);
 
         when(inputReader.readInt(prompt, validator)).thenReturn(Optional.of(1));
 
@@ -48,9 +48,9 @@ class OptionReaderTest {
         String header = "Header";
         String prompt = "Prompt";
 
-        ViewOption<String> option1 = new ViewOption<>("One", () -> "1");
-        ViewOption<String> option2 = new ViewOption<>("Two", () -> "2");
-        List<ViewOption<String>> options = List.of(option1, option2);
+        CLIOption<String> option1 = new CLIOption<>("One", () -> "1");
+        CLIOption<String> option2 = new CLIOption<>("Two", () -> "2");
+        List<CLIOption<String>> options = List.of(option1, option2);
 
         when(inputReader.readInt(prompt, validator)).thenReturn(Optional.of(2));
 
@@ -65,9 +65,9 @@ class OptionReaderTest {
     void read_ShouldWorkWithNullHeader() {
         String prompt = "Prompt";
 
-        ViewOption<String> option1 = new ViewOption<>("One", () -> "1");
-        ViewOption<String> option2 = new ViewOption<>("Two", () -> "2");
-        List<ViewOption<String>> options = List.of(option1, option2);
+        CLIOption<String> option1 = new CLIOption<>("One", () -> "1");
+        CLIOption<String> option2 = new CLIOption<>("Two", () -> "2");
+        List<CLIOption<String>> options = List.of(option1, option2);
 
         when(inputReader.readInt(prompt, validator)).thenReturn(Optional.of(2));
 
@@ -82,9 +82,9 @@ class OptionReaderTest {
     void read_ShouldWorkWithBlankHeader() {
         String prompt = "Prompt";
 
-        ViewOption<String> option1 = new ViewOption<>("One", () -> "1");
-        ViewOption<String> option2 = new ViewOption<>("Two", () -> "2");
-        List<ViewOption<String>> options = List.of(option1, option2);
+        CLIOption<String> option1 = new CLIOption<>("One", () -> "1");
+        CLIOption<String> option2 = new CLIOption<>("Two", () -> "2");
+        List<CLIOption<String>> options = List.of(option1, option2);
 
         when(inputReader.readInt(prompt, validator)).thenReturn(Optional.of(2));
 

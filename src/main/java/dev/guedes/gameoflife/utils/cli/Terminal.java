@@ -17,7 +17,7 @@ public final class Terminal {
     private static final String ANSI_CLEAR = "\033[H\033[2J";
 
     private Terminal() {
-        throw new UnsupportedOperationException("ConsoleUtils is a utility class and cannot be instantiated.");
+        throw new UnsupportedOperationException("Terminal is a utility class and cannot be instantiated.");
     }
 
     public static void clear() {

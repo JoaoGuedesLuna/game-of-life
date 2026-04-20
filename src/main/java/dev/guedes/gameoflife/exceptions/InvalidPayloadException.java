@@ -9,7 +9,6 @@ import dev.guedes.gameoflife.enums.ViewAction;
  * @author João Guedes
  */
 public class InvalidPayloadException extends RuntimeException {
-
     public InvalidPayloadException(ViewAction action, Class<?> expectedType, Object actualPayload) {
         super(String.format(
                 "Invalid payload for action [%s]: Expected %s but got %s",
