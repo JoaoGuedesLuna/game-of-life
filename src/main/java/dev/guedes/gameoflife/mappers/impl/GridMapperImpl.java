@@ -1,0 +1,82 @@
+package dev.guedes.gameoflife.mappers.impl;
+
+import com.google.inject.Inject;
+import java.util.Arrays;
+
+import dev.guedes.gameoflife.config.GameLimits;
+import dev.guedes.gameoflife.enums.Cell;
+import dev.guedes.gameoflife.mappers.GridMapper;
+import dev.guedes.gameoflife.models.Grid;
+import dev.guedes.gameoflife.validators.BoundedNumberValidator;
+import dev.guedes.gameoflife.validators.BoundedNumberValidatorFactory;
+import dev.guedes.gameoflife.validators.PopulationValidatorFactory;
+
+/*
+ * Copyright (c) 2026 João Guedes
+ * Project : Game of Life
+ * File : GridMapperImpl.java
+ * Created on : 2026-11-09 17:00
+ * Last modified: 2026-11-09 17:00
+ *
+ * Author : João Guedes
+ * GitHub : https://github.com/JoaoGuedesLuna
+ *
+ * Copyright (c) 2026 João Guedes. All Rights Reserved.
+ * Licensed under the MIT License.
+ *
+ * https://opensource.org/licenses/MIT
+ */
+public class GridMapperImpl implements GridMapper {
+    private final BoundedNumberValidator widthValidator;
+    private final BoundedNumberValidator heightValidator;
+    private final PopulationValidatorFactory populationValidatorFactory;
+
+    @Inject
+    private GridMapperImpl(
+            BoundedNumberValidatorFactory boundedNumberValidatorFactory,
+            PopulationValidatorFactory populationValidatorFactory
+    ) {
+        this.widthValidator = boundedNumberValidatorFactory.create(GameLimits.MIN_WIDTH, GameLimits.MAX_WIDTH);
+        this.heightValidator = boundedNumberValidatorFactory.create(GameLimits.MIN_HEIGHT, GameLimits.MAX_HEIGHT);
+        this.populationValidatorFactory = populationValidatorFactory;
+    }
+
+    public Grid toGrid(int width, int height, String population) {
+        validateArguments(width, height, population);
+
+        Cell[][] cells = createCells(width, height, population);
+
+        return new Grid(cells);
+    }
+
+    private void validateArguments(int width, int height, String population) {
+        widthValidator.validate(width);
+        heightValidator.validate(height);
+        populationValidatorFactory.create(width, height).validate(population);
+    }
+
+    private Cell[][] createCells(int width, int height, String population) {
+        Cell[][] cells = new Cell[height][width];
+
+        for (Cell[] row : cells) Arrays.fill(row, Cell.DEAD);
+
+        int row = 0;
+        int col = 0;
+
+        for (int i = 0; i < population.length(); i++) {
+            char c = population.charAt(i);
+
+            if (c == '#') {
+                row++;
+                col = 0;
+            } else {
+                if (c == '1'){
+                    cells[row][col] = Cell.ALIVE;
+                }
+                col++;
+            }
+        }
+
+        return cells;
+    }
+}

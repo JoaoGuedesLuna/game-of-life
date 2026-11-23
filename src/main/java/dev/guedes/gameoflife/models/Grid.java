@@ -1,0 +1,154 @@
+package dev.guedes.gameoflife.models;
+
+import lombok.Getter;
+import java.util.Arrays;
+
+import dev.guedes.gameoflife.config.GameLimits;
+import dev.guedes.gameoflife.enums.Cell;
+import dev.guedes.gameoflife.exceptions.InvalidCellCoordinatesException;
+import dev.guedes.gameoflife.exceptions.InvalidGridDimensionsException;
+
+/*
+ * Copyright (c) 2026 João Guedes
+ * Project : Game of Life
+ * File : Grid.java
+ * Created on : 2026-11-09 17:00
+ * Last modified: 2026-11-09 17:00
+ *
+ * Author : João Guedes
+ * GitHub : https://github.com/JoaoGuedesLuna
+ *
+ * Copyright (c) 2026 João Guedes. All Rights Reserved.
+ * Licensed under the MIT License.
+ *
+ * https://opensource.org/licenses/MIT
+ */
+public class Grid {
+    @Getter private final int width;
+    @Getter private final int height;
+
+    private Cell[][] cells;
+    private Cell[][] snapshot;
+    private Cell[][] buffer;
+
+    public Grid(Cell[][] cells) {
+        validateCellsMatrix(cells);
+
+        this.height = cells.length;
+        this.width = cells[0].length;
+        this.cells = cells;
+        this.buffer = new Cell[height][width];
+
+        saveSnapshot();
+    }
+
+    public Cell getCell(int row, int col) {
+        if (!isWithinBounds(row, col)) {
+            throw new InvalidCellCoordinatesException(row + 1, col + 1, width, height);
+        }
+        return cells[row][col];
+    }
+
+    public void toggleCell(int row, int col) {
+        if (!isWithinBounds(row, col)) {
+            throw new InvalidCellCoordinatesException(row + 1, col + 1, width, height);
+        }
+        cells[row][col] = cells[row][col] == Cell.ALIVE ? Cell.DEAD : Cell.ALIVE;
+    }
+
+    public boolean isCellAlive(int row, int col) { return getCell(row, col) == Cell.ALIVE; }
+
+    public boolean hasLivingCells() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (cells[row][col] == Cell.ALIVE) return true;
+            }
+        }
+        return false;
+    }
+
+    public void update() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                buffer[row][col] = getNewCellState(row, col);
+            }
+        }
+
+        Cell[][] temp = cells;
+        cells = buffer;
+        buffer = temp;
+    }
+
+    public void saveSnapshot() {
+        snapshot = new Cell[height][width];
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(cells[i], 0, snapshot[i], 0, width);
+        }
+    }
+
+    public void restoreSnapshot() {
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(snapshot[i], 0, cells[i], 0, width);
+        }
+    }
+
+    public void clear() { for (int row = 0; row < height; row++) Arrays.fill(cells[row], Cell.DEAD); }
+
+    private Cell getNewCellState(int row, int col) {
+        int livingNeighbors = countLivingNeighbors(row, col);
+
+        if (livingNeighbors == 3) return Cell.ALIVE;
+
+        boolean isAlive = cells[row][col] == Cell.ALIVE;
+
+        if (isAlive && livingNeighbors == 2) return Cell.ALIVE;
+
+        return Cell.DEAD;
+    }
+
+    private int countLivingNeighbors(int row, int col) {
+        int count = 0;
+
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = col - 1; j <= col + 1; j++) {
+                if (isWithinBounds(i, j) && !(i == row && j == col) && cells[i][j] == Cell.ALIVE) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private boolean isWithinBounds(int row, int col) { return row >= 0 && row < height && col >= 0 && col < width; }
+
+    private void validateCellsMatrix(Cell[][] cells) {
+        if (cells == null || cells.length == 0) {
+            throw new IllegalArgumentException("Cells matrix must not be null or empty.");
+        }
+
+        if (cells[0] == null) {
+            throw new IllegalArgumentException("Cells matrix must be rectangular and contain no null rows.");
+        }
+
+        int expectedWidth = cells[0].length;
+
+        validateDimensions(expectedWidth, cells.length);
+
+        for (Cell[] row : cells) {
+            if (row == null || row.length != expectedWidth) {
+                throw new IllegalArgumentException("Cells matrix must be rectangular and contain no null rows.");
+            }
+        }
+    }
+
+    private void validateDimensions(int width, int height) {
+        if (width < GameLimits.MIN_WIDTH || width > GameLimits.MAX_WIDTH) {
+            throw new InvalidGridDimensionsException("Width", width, GameLimits.MIN_WIDTH, GameLimits.MAX_WIDTH);
+        }
+
+        if (height < GameLimits.MIN_HEIGHT || height > GameLimits.MAX_HEIGHT) {
+            throw new InvalidGridDimensionsException("Height", height, GameLimits.MIN_HEIGHT, GameLimits.MAX_HEIGHT);
+        }
+    }
+}
